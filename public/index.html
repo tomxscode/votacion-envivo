@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Votación en línea</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    function votar(opcion) {
+      socket.emit('voto', opcion);
+    }
+
+    socket.on('resultado', function(resultado) {
+      const opciones = document.querySelectorAll('.opcion');
+      opciones.forEach(function(opcion, index) {
+        opcion.querySelector('.votos').innerText = resultado[index];
+      });
+    });
+  </script>
+  <style>
+    .opcion {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Votación en línea</h1>
+  <div class="opcion">
+    <span>Opción 1</span>
+    <button onclick="votar(0)">Votar</button>
+    <span class="votos">0</span>
+  </div>
+  <div class="opcion">
+    <span>Opción 2</span>
+    <button onclick="votar(1)">Votar</button>
+    <span class="votos">0</span>
+  </div>
+</body>
+</html>
